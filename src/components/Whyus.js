@@ -9,7 +9,6 @@ function Whyus() {
   const [third, setThird] = useState(false);
   const [fourth, setFourth] = useState(false);
   const [fifth, setFifth] = useState(false);
-  const strike = { textDecoration: "line-through" };
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const checkitems = () => {
     setTimeout(() => {
@@ -41,7 +40,7 @@ function Whyus() {
       <div
         className="col px-4 my-3 d-flex align-items-start flex-column"
         id="homeres1">
-        <div className="display-6 my-5 " id="hometag">
+        <div className="display-6 my-5 montserrat" id="hometag">
           So Why Us?
         </div>
         <div>

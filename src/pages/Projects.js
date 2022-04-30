@@ -3,12 +3,13 @@ import ProjectCard from "../components/ProjectCard";
 import Button from "@mui/material/Button";
 import * as BiIcons from "react-icons/bi";
 import Grid from "@mui/material/Grid";
+import TodoMain from "../components/TodoMain";
+
 function Projects() {
   const sort = (arr) => {
     for (let i = 0; i < arr.length - 1; i++) {
       let min = i;
       for (let j = i + 1; j < arr.length; j++) {
-        console.log(arr[j].deadline, arr[min].deadline);
         if (arr[j].deadline < arr[min].deadline) min = j;
       }
       let temp = arr[i];
@@ -17,6 +18,7 @@ function Projects() {
     }
     return arr;
   };
+  // TODO: Array hardcoded for now, get from api.
   const projArray = [
     {
       name: "Gravity",
@@ -58,6 +60,7 @@ function Projects() {
     }
     return color;
   };
+
   return (
     <>
       <div
@@ -84,9 +87,18 @@ function Projects() {
           </Button>
         </div>
         <hr style={{ color: "grey" }} />
+
+        <h2 className="text-light montserrat mb-5">My Pending Tasks:</h2>
+
+        <TodoMain getRandomColor={getRandomColor} />
+        <hr style={{ color: "grey" }} />
+
+        <h2 className="text-light montserrat">Ongoing Projects:</h2>
+
         <Grid container sx={{ marginTop: "1.75rem" }} spacing={2}>
           {sort(projArray).map((element) => {
             const color = getRandomColor();
+
             return (
               // ! change key value after making api
               <Grid item xs={12} md={4} sm={6} lg={3} key={element.name}>

@@ -13,8 +13,10 @@ body {
   width: 100vw;
   overflow-x: hidden;
 }
-
-#hometag {
+.strike{
+  text-decoration: line-through;
+}
+.montserrat {
   font-family: 'Montserrat', sans-serif;
 }
 #temp{

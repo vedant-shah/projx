@@ -21,7 +21,7 @@ function Home() {
             width: "100vw",
           }}>
           <div className="col my-3 d-flex flex-column" id="homeres">
-            <div className="display-1 mb-5" id="hometag">
+            <div className="display-1 mb-5 montserrat" id="hometag">
               Organization made easy.
             </div>
             <div
@@ -88,7 +88,7 @@ function Home() {
           <div
             className="col my-5 text-end d-flex flex-column align-items-end"
             id="homeres">
-            <div className="display-6 mb-5 " id="hometag">
+            <div className="display-6 mb-5 montserrat " id="hometag">
               Collect & Connect.
             </div>
             <div
