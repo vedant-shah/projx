@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 
 function TodoMain() {
@@ -15,13 +15,13 @@ function TodoMain() {
     },
     {
       text: "Finish Pierian UI/UX",
-      deadline: new Date("05/08/2022"),
+      deadline: new Date("04/08/2022"),
       complete: false,
       priority: "med",
     },
     {
       text: "Finish Internship",
-      deadline: new Date("07/05/2022"),
+      deadline: new Date("03/05/2022"),
       complete: false,
       priority: "low",
     },
@@ -38,23 +38,23 @@ function TodoMain() {
       priority: "high",
     },
   ]);
-  //   var hdt = new Date();
-  //   hdt.setDate(hdt.getDate() + 3);
-  //   var mdt = new Date();
-  //   mdt.setDate(mdt.getDate() + 7);
-
   return (
     <>
       <p className="text-danger">High Priority ( Deadline within 3 days )</p>
       {tasks.map((element, i) => {
         if (element.priority === "high") {
-          //   tdy = new Date();
-          //   deadline = element.deadline;
+          const days = Math.floor(
+            (element.deadline.getTime() - new Date().getTime()) /
+              (1000 * 60 * 60 * 24)
+          );
           return (
             <p
               key={element.text}
               className={element.complete ? "strike" : ""}
-              style={{ borderLeft: "2px solid red", color: "whitesmoke" }}>
+              style={{
+                borderLeft: "2px solid red",
+                color: days < 0 ? "#d9534f" : "whitesmoke",
+              }}>
               <Checkbox
                 size="small"
                 onClick={
@@ -81,15 +81,9 @@ function TodoMain() {
               <span
                 style={{ fontWeight: "lighter" }}
                 className="badge rounded-pill bg-danger mx-3">
-                {Math.floor(
-                  (element.deadline.getTime() - new Date().getTime()) /
-                    (1000 * 60 * 60 * 24)
-                ) >= 0
-                  ? Math.floor(
-                      (element.deadline.getTime() - new Date().getTime()) /
-                        (1000 * 60 * 60 * 24)
-                    ) + " days"
-                  : "Overdue"}
+                {days >= 0
+                  ? days + " days"
+                  : "Overdue " + Math.abs(days) + " days ago"}
               </span>
             </p>
           );
@@ -100,11 +94,18 @@ function TodoMain() {
       </p>
       {tasks.map((element, i) => {
         if (element.priority === "med") {
+          const days = Math.floor(
+            (element.deadline.getTime() - new Date().getTime()) /
+              (1000 * 60 * 60 * 24)
+          );
           return (
             <p
               key={element.text}
               className={element.complete ? "strike" : ""}
-              style={{ borderLeft: "2px solid red", color: "whitesmoke" }}>
+              style={{
+                borderLeft: "2px solid red",
+                color: days < 0 ? "#d9534f" : "whitesmoke",
+              }}>
               <Checkbox
                 size="small"
                 onClick={
@@ -128,6 +129,15 @@ function TodoMain() {
                 checked={element.complete}
               />
               {element.text}
+              <span
+                style={{ fontWeight: "lighter" }}
+                className={`badge rounded-pill bg-${
+                  days < 0 ? "danger" : "warning"
+                } mx-3`}>
+                {days >= 0
+                  ? days + " days"
+                  : "Overdue " + Math.abs(days) + " days ago"}
+              </span>
             </p>
           );
         }
@@ -135,11 +145,18 @@ function TodoMain() {
       <p className="text-success">Low Priority ( Deadline beyond this week )</p>
       {tasks.map((element, i) => {
         if (element.priority === "low") {
+          const days = Math.floor(
+            (element.deadline.getTime() - new Date().getTime()) /
+              (1000 * 60 * 60 * 24)
+          );
           return (
             <p
               key={element.text}
               className={element.complete ? "strike" : ""}
-              style={{ borderLeft: "2px solid red", color: "whitesmoke" }}>
+              style={{
+                borderLeft: "2px solid red",
+                color: days < 0 ? "#d9534f" : "whitesmoke",
+              }}>
               <Checkbox
                 size="small"
                 onClick={
@@ -163,6 +180,15 @@ function TodoMain() {
                 checked={element.complete}
               />
               {element.text}
+              <span
+                style={{ fontWeight: "lighter" }}
+                className={`badge rounded-pill bg-${
+                  days < 0 ? "danger" : "success"
+                } mx-3`}>
+                {days >= 0
+                  ? days + " days"
+                  : "Overdue " + Math.abs(days) + " days ago"}
+              </span>
             </p>
           );
         }
