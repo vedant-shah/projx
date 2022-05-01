@@ -10,7 +10,12 @@ function ProjectCard(props) {
   return (
     <>
       <Card
-        sx={{ backgroundColor: "#171717", borderRadius: 4, cursor: "pointer" }}>
+        sx={{
+          backgroundColor: "#171717",
+          borderRadius: 4,
+          cursor: "pointer",
+          boxShadow: "0px 3px 5px 0px",
+        }}>
         <CardContent>
           <Typography variant="h5" component="div" color={props.color}>
             {props.element.name}
@@ -23,8 +28,7 @@ function ProjectCard(props) {
             <br />
           </Typography>
         </CardContent>
-        <CardActions className="d-flex justify-content-around">
-          <Button size="small">Learn More</Button>
+        <CardActions className="d-flex mb-3 mx-2">
           {/* <Typography sx={{ fontSize: 10 }} color="#bdc1c6" gutterBottom> */}
           <Chip
             style={{ backgroundColor: props.color, fontSize: "10px" }}

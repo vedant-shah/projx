@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 
-function TodoMain() {
+function TodoMain(props) {
   //! Hardcoding tasks for now, change once api made.
   const [tasks, setTasks] = useState([
     {
@@ -18,29 +18,43 @@ function TodoMain() {
       deadline: new Date("04/08/2022"),
       complete: false,
       priority: "med",
+      project: "Probability",
     },
     {
       text: "Finish Internship",
-      deadline: new Date("03/05/2022"),
+      deadline: new Date("06/05/2022"),
       complete: false,
       priority: "low",
+      project: "Circles",
     },
     {
       text: "Anaadyanta",
       deadline: new Date("05/09/2022"),
       complete: false,
       priority: "med",
+      project: "Euler",
     },
     {
       text: "Random task",
       deadline: new Date("05/03/2022"),
       complete: false,
       priority: "high",
+      project: "Bridges",
     },
   ]);
+  const getColor = (e) => {
+    let color = "";
+    props.sortedArray.map((element) => {
+      if (e.project === element.name) {
+        color = element.color;
+        return element.color;
+      }
+    });
+    return color;
+  };
   return (
     <>
-      <p className="text-danger">High Priority ( Deadline within 3 days )</p>
+      <h5 className="text-danger my-4">High Priority</h5>
       {tasks.map((element, i) => {
         if (element.priority === "high") {
           const days = Math.floor(
@@ -52,8 +66,8 @@ function TodoMain() {
               key={element.text}
               className={element.complete ? "strike" : ""}
               style={{
-                borderLeft: "2px solid red",
-                color: days < 0 ? "#d9534f" : "whitesmoke",
+                borderLeft: `5px solid ${getColor(element)}`,
+                color: days < 0 ? "#EE4B2B" : "whitesmoke",
               }}>
               <Checkbox
                 size="small"
@@ -89,9 +103,7 @@ function TodoMain() {
           );
         }
       })}
-      <p className="text-warning">
-        Moderate Priority ( Deadline within this week )
-      </p>
+      <h5 className="text-warning my-4">Moderate Priority</h5>
       {tasks.map((element, i) => {
         if (element.priority === "med") {
           const days = Math.floor(
@@ -103,8 +115,8 @@ function TodoMain() {
               key={element.text}
               className={element.complete ? "strike" : ""}
               style={{
-                borderLeft: "2px solid red",
-                color: days < 0 ? "#d9534f" : "whitesmoke",
+                borderLeft: `5px solid ${getColor(element)}`,
+                color: days < 0 ? "#EE4B2B" : "whitesmoke",
               }}>
               <Checkbox
                 size="small"
@@ -142,7 +154,7 @@ function TodoMain() {
           );
         }
       })}
-      <p className="text-success">Low Priority ( Deadline beyond this week )</p>
+      <h5 className="text-success my-4">Low Priority</h5>
       {tasks.map((element, i) => {
         if (element.priority === "low") {
           const days = Math.floor(
@@ -154,7 +166,7 @@ function TodoMain() {
               key={element.text}
               className={element.complete ? "strike" : ""}
               style={{
-                borderLeft: "2px solid red",
+                borderLeft: `5px solid ${getColor(element)}`,
                 color: days < 0 ? "#d9534f" : "whitesmoke",
               }}>
               <Checkbox
@@ -175,6 +187,7 @@ function TodoMain() {
                     }, 3000);
                   }
                   // ToDo : Use fetch to update db on popping
+                  // todo : remove color fields before updating delete(object_name[key_name]);
                 }
                 color="success"
                 checked={element.complete}

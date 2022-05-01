@@ -60,7 +60,7 @@ function Projects() {
     }
     return color;
   };
-
+  const sortedArray = sort(projArray);
   return (
     <>
       <div
@@ -90,15 +90,16 @@ function Projects() {
 
         <h2 className="text-light montserrat mb-5">My Pending Tasks:</h2>
 
-        <TodoMain getRandomColor={getRandomColor} />
-        <hr style={{ color: "grey" }} />
+        <TodoMain sortedArray={sortedArray} />
+
+        <hr style={{ color: "grey", marginTop: "3rem" }} />
 
         <h2 className="text-light montserrat">Ongoing Projects:</h2>
 
         <Grid container sx={{ marginTop: "1.75rem" }} spacing={2}>
-          {sort(projArray).map((element) => {
+          {sortedArray.map((element) => {
             const color = getRandomColor();
-
+            element.color = color;
             return (
               // ! change key value after making api
               <Grid item xs={12} md={4} sm={6} lg={3} key={element.name}>
