@@ -20,7 +20,7 @@ function Home() {
             color: "#bdc1c6",
             width: "100vw",
           }}>
-          <div className="col my-3 d-flex flex-column" id="homeres">
+          <div className="col my-5 d-flex flex-column" id="homeres">
             <div className="display-1 mb-5 montserrat" id="hometag">
               Organization made easy.
             </div>
