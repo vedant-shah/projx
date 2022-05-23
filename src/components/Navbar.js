@@ -27,8 +27,8 @@ export const Navbar = () => {
           <button
             className="navbar-toggler"
             type="button"
-            data-mdb-toggle="collapse"
-            data-mdb-target="#navbarSupportedContent"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent"
             aria-expanded="false"
             aria-label="Toggle navigation">
@@ -36,7 +36,9 @@ export const Navbar = () => {
           </button>
 
           {/* <!-- Collapsible wrapper --> */}
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div
+            className="collapse text-center my-2 navbar-collapse"
+            id="navbarSupportedContent">
             {/* <!-- Navbar brand --> */}
             <Link className="navbar-brand mt-2 mt-lg-0" to="/">
               <img src={logo} height="60" alt="ProjX" loading="lazy" />
@@ -50,7 +52,7 @@ export const Navbar = () => {
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/">
-                  About Us
+                  Why Us
                 </Link>
               </li>
               <li className="nav-item">
@@ -100,7 +102,8 @@ export const Navbar = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false">
                 <img
-                  src="https://avatars.dicebear.com/api/avataaars/.svg"
+                  src="https://avatars.dicebear.com/api/avataaars/temp.svg"
+                  // ! change api url from local storage
                   className="rounded-circle"
                   height="50"
                   alt="Black and White Portrait of a Man"

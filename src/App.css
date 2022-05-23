@@ -40,3 +40,90 @@ body {
   }
   
 }
+.react-date-picker__wrapper{
+  border-radius: 7px;
+  padding: 2px
+}
+.react-date-picker__inputGroup__input, .react-date-picker__button svg, .react-date-picker__calendar-button__icon{
+  color: whitesmoke!important;
+}
+/* From uiverse.io by @Madflows */
+.button {
+  position: relative;
+  overflow: hidden;
+  height: 3rem;
+  padding: 0.75rem;
+  border-radius: 1.5rem;
+  background: #3d3a4e;
+  border: none;
+  background-size: 400%;
+  color: #fff;
+}
+
+.button:hover::before {
+  transform: scaleX(1);
+}
+
+.button-content {
+  position: relative;
+  z-index: 1;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  width: 100%;
+  height: inherit;
+  border-radius: inherit;
+  background: linear-gradient(
+    82.3deg,
+    rgba(150, 93, 233, 1) 10.8%,
+    rgb(101 158 255) 94.3%
+  );
+  transition: all 0.475s;
+}
+
+/* From uiverse.io by @nikk7007 */
+.create {
+  width: 100%;
+  padding: 0.8em 1.8em;
+  border: 2px solid #17C3B2;
+  border-radius: 0 0 15px 15px ;
+  position: relative;
+  overflow: hidden;
+  background-color: transparent;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 16px;
+  transition: .3s;
+  z-index: 1;
+  font-family: inherit;
+  color: #17C3B2;
+ }
+ 
+ .create::before {
+  content: '';
+  width: 0;
+  height: 300%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: #17C3B2;
+  transition: .5s ease;
+  display: block;
+  z-index: -1;
+ }
+ 
+ .create:hover::before {
+  width: 105%;
+ }
+ 
+ .create:hover {
+  color: #111;
+ }
+ 

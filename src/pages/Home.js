@@ -100,7 +100,9 @@ function Home() {
             </h5>
           </div>
         </div>
-        <Whyus />
+        <div id="whyus">
+          <Whyus />
+        </div>
         <div
           className="row px-3 d-flex"
           id="homeres"

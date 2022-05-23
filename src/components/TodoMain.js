@@ -22,7 +22,7 @@ function TodoMain(props) {
     },
     {
       text: "Finish Internship",
-      deadline: new Date("06/05/2022"),
+      deadline: new Date("06/12/2022"),
       complete: false,
       priority: "low",
       project: "Circles",
@@ -44,7 +44,7 @@ function TodoMain(props) {
   ]);
   const getColor = (e) => {
     let color = "";
-    props.sortedArray.map((element) => {
+    props.sortedArray.forEach((element) => {
       if (e.project === element.name) {
         color = element.color;
         return element.color;

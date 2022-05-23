@@ -14,7 +14,8 @@ function ProjectCard(props) {
           backgroundColor: "#171717",
           borderRadius: 4,
           cursor: "pointer",
-          boxShadow: "0px 3px 5px 0px",
+          boxShadow:
+            "0 1px 2px rgb(0 0 0 / 7%), 0 2px 4px rgb(0 0 0 / 7%), 0 4px 8px rgb(0 0 0 / 7%), 0 8px 16px rgb(0 0 0 / 7%), 0 16px 32px rgb(0 0 0 / 7%), 0 32px 64px rgb(0 0 0 / 7%)",
         }}>
         <CardContent>
           <Typography variant="h5" component="div" color={props.color}>

@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import ProjectCard from "../components/ProjectCard";
-import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
 import * as BiIcons from "react-icons/bi";
 import Grid from "@mui/material/Grid";
 import TodoMain from "../components/TodoMain";
+import NewProjectModal from "../components/NewProjectModal";
 
 function Projects() {
+  const [open, setOpen] = useState(false);
   const sort = (arr) => {
     for (let i = 0; i < arr.length - 1; i++) {
       let min = i;
@@ -74,18 +76,37 @@ function Projects() {
             style={{ fontFamily: "Montserrat" }}>
             Welcome!
           </p>
-          <Button
-            style={{
-              height: "40px",
-              borderRadius: "30px",
-              backgroundColor: "rgb(101 158 255)",
-            }}
+          {/* <Button
+            // style={{
+            //   height: "40px",
+            //   borderRadius: "30px",
+            //   backgroundColor: "rgb(101 158 255)",
+            // }}
+            className="button"
             id="addproject"
             variant="contained"
             startIcon={<BiIcons.BiPlus />}>
             New Project
-          </Button>
+          </Button> */}
+          <button
+            className="button"
+            onClick={() => {
+              setOpen(!open);
+            }}>
+            <span className="button-content d-flex align-items-center">
+              <BiIcons.BiPlus style={{ fontSize: "1.5rem" }} />
+              New Project
+            </span>
+          </button>
         </div>
+        <Modal
+          open={open}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description">
+          <div>
+            <NewProjectModal setOpen={setOpen} />
+          </div>
+        </Modal>
         <hr style={{ color: "grey" }} />
 
         <h2 className="text-light montserrat mb-5">My Pending Tasks:</h2>
