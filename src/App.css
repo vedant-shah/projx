@@ -1,51 +1,54 @@
 @font-face {
-  font-family: 'Product Sans';
+  font-family: "Product Sans";
   font-style: normal;
   font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/productsans/v5/HYvgU2fE2nRJvZ5JFAumwegdm0LZdjqr5-oayXSOefg.woff2) format('woff2');
+  src: local("Open Sans"), local("OpenSans"),
+    url(https://fonts.gstatic.com/s/productsans/v5/HYvgU2fE2nRJvZ5JFAumwegdm0LZdjqr5-oayXSOefg.woff2)
+      format("woff2");
 }
 
 body {
-  /* background-color: black;
-  color: whitesmoke; */
+  /* background-color: black;*/
+  color: whitesmoke !important;
   font-family: Product Sans;
   box-sizing: border-box;
   width: 100vw;
   overflow-x: hidden;
 }
-.strike{
+.strike {
   text-decoration: line-through;
 }
 .montserrat {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
-#temp{
+#temp {
   width: 100vw;
 }
-@media(max-width: 768px) {
+@media (max-width: 768px) {
   #homeres {
     text-align: center !important;
     align-items: center !important;
   }
   #homeres1 {
-    align-items: center!important;
+    align-items: center !important;
   }
 }
-@media(max-width: 500px){
-  #projecttitlewrapper{
+@media (max-width: 500px) {
+  #projecttitlewrapper {
     flex-direction: column;
   }
-  #mycont{
-    height: 175px!important;
+  #mycont {
+    height: 175px !important;
   }
-  
 }
-.react-date-picker__wrapper{
+.react-date-picker__wrapper {
   border-radius: 7px;
-  padding: 2px
+  padding: 2px;
 }
-.react-date-picker__inputGroup__input, .react-date-picker__button svg, .react-date-picker__calendar-button__icon{
-  color: whitesmoke!important;
+.react-date-picker__inputGroup__input,
+.react-date-picker__button svg,
+.react-date-picker__calendar-button__icon {
+  color: whitesmoke !important;
 }
 /* From uiverse.io by @Madflows */
 .button {
@@ -70,7 +73,7 @@ body {
 }
 
 .button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -91,39 +94,38 @@ body {
 .create {
   width: 100%;
   padding: 0.8em 1.8em;
-  border: 2px solid #17C3B2;
-  border-radius: 0 0 15px 15px ;
+  border: 2px solid #17c3b2;
+  border-radius: 0 0 15px 15px;
   position: relative;
   overflow: hidden;
   background-color: transparent;
   text-align: center;
   text-transform: uppercase;
   font-size: 16px;
-  transition: .3s;
+  transition: 0.3s;
   z-index: 1;
   font-family: inherit;
-  color: #17C3B2;
- }
- 
- .create::before {
-  content: '';
+  color: #17c3b2;
+}
+
+.create::before {
+  content: "";
   width: 0;
   height: 300%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(45deg);
-  background: #17C3B2;
-  transition: .5s ease;
+  background: #17c3b2;
+  transition: 0.5s ease;
   display: block;
   z-index: -1;
- }
- 
- .create:hover::before {
+}
+
+.create:hover::before {
   width: 105%;
- }
- 
- .create:hover {
+}
+
+.create:hover {
   color: #111;
- }
- 
+}

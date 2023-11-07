@@ -7,7 +7,11 @@ function HomeQuote() {
         <blockquote className="blockquote">
           <p
             className="display-3"
-            style={{ fontFamily: "Montserrat", fontStyle: "italic" }}>
+            style={{
+              fontFamily: "Montserrat",
+              fontStyle: "italic",
+              color: "black",
+            }}>
             A goal without a plan is just a wish.
           </p>
         </blockquote>

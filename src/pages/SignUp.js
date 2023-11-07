@@ -3,22 +3,19 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-// import Link from "@mui/material/Link";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { auth } from "../firebase-config";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 function Copyright(props) {
   return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}>
+    <Typography variant="body2" color="whitesmoke" align="center" {...props}>
       {"Copyright © "}
       <Link color="inherit" to="/">
         ProjX
@@ -28,26 +25,46 @@ function Copyright(props) {
     </Typography>
   );
 }
-
-const theme = createTheme();
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const nav = useNavigate();
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      console.log({
+        email: data.get("email"),
+        password: data.get("password"),
+      });
+      await createUserWithEmailAndPassword(
+        auth,
+        data.get("email"),
+        data.get("password")
+      );
+      nav("/signin");
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+    <div
+      component="main"
+      style={{
+        backgroundColor: "#1c1c1c",
+        height: "90vh",
+        width: "100vw!important",
+        padding: "3% ",
+      }}>
+      <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -66,24 +83,11 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  autoComplete="given-name"
-                  name="Name"
-                  required
-                  fullWidth
-                  id="Name"
-                  label="Name"
-                  autoFocus
-                />
-              </Grid>
-              
-              <Grid item xs={12}>
-                <TextField
                   required
                   fullWidth
                   id="email"
-                  label="Username"
-                  name="username"
-                  autoComplete="username"
+                  name="email"
+                  label="Email"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -105,7 +109,7 @@ export default function SignUp() {
               sx={{ mt: 3, mb: 2 }}>
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
               <Grid item>
                 <Link to="/signin" variant="body2">
                   Already have an account? Sign in
@@ -115,7 +119,7 @@ export default function SignUp() {
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
+      </ThemeProvider>
+    </div>
   );
 }

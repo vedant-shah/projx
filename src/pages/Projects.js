@@ -66,10 +66,10 @@ function Projects() {
   return (
     <>
       <div
-        className="container-fluid px-5 bg-dark pb-4"
-        style={{ minHeight: "85vh" }}>
+        className="container-fluid px-5 pb-4"
+        style={{ minHeight: "85vh", backgroundColor: "#1c1c1c" }}>
         <div
-          className=" bg-dark mb-4 d-flex justify-content-between align-items-center"
+          className=" mb-4 d-flex justify-content-between align-items-center"
           id="projecttitlewrapper">
           <p
             className="display-4 text-light"

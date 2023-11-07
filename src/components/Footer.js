@@ -7,7 +7,9 @@ import { Link } from "react-router-dom";
 function Footer() {
   return (
     <>
-      <footer className="bg-dark text-center text-white">
+      <footer
+        className=" text-center text-white"
+        style={{ backgroundColor: "#1c1c1c", height: "20vh" }}>
         {/* <!-- Grid container --> */}
         <div className="container  p-4 pb-0">
           {/* <!-- Section: Social media --> */}
@@ -39,12 +41,7 @@ function Footer() {
         {/* <!-- Grid container --> */}
 
         {/* <!-- Copyright --> */}
-        <div className="text-center p-3">
-          © 2022 Copyright:
-          <Link className="text-white mx-2" to="/">
-            ProjX
-          </Link>
-        </div>
+
         {/* <!-- Copyright --> */}
       </footer>
     </>

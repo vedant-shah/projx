@@ -19,6 +19,7 @@ function Home() {
             backgroundColor: "black",
             color: "#bdc1c6",
             width: "100vw",
+            height: "90vh",
           }}>
           <div className="col my-5 d-flex flex-column" id="homeres">
             <div className="display-1 mb-5 montserrat" id="hometag">
@@ -88,13 +89,16 @@ function Home() {
           <div
             className="col my-5 text-end d-flex flex-column align-items-end"
             id="homeres">
-            <div className="display-6 mb-5 montserrat " id="hometag">
+            <div
+              className="display-6 mb-5 montserrat "
+              id="hometag"
+              style={{ color: "black" }}>
               Collect & Connect.
             </div>
             <div
               className="divider mb-5"
               style={{ width: "30%", borderTop: "solid 1.5px #89ffd7" }}></div>
-            <h5 className="my-4">
+            <h5 className="my-4" style={{ color: "black" }}>
               Bring your team's work together, in one shared space. Collect all
               the data, stay ahead of time & get S#!T done.
             </h5>

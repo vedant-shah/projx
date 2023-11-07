@@ -20,7 +20,9 @@ export const Navbar = () => {
   return (
     <>
       {/* <!-- Navbar --> */}
-      <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+      <nav
+        className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark"
+        style={{ height: "10vh" }}>
         {/* <!-- Container wrapper --> */}
         <div className="container-fluid">
           {/* <!-- Toggle button --> */}
