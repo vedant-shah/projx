@@ -1,8 +1,24 @@
 import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../images/projx-logo1.png";
-import { Button } from "@mui/material";
-
+import AppBar from "@mui/material/AppBar";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase-config";
+import { useNavigate } from "react-router-dom";
+const pages = ["Home", "Why Us", "Projects"];
+const settings = ["Logout"];
 export const Navbar = () => {
   // const getAvatar = async () => {
   //   const imageUrl = "https://avatars.dicebear.com/api/avataaars/ved.svg";
@@ -17,127 +33,137 @@ export const Navbar = () => {
   //     };
   //   };
   // };
+  const nav = useNavigate();
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
   return (
     <>
-      {/* <!-- Navbar --> */}
-      <nav
-        className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark"
-        style={{ height: "10vh" }}>
-        {/* <!-- Container wrapper --> */}
-        <div className="container-fluid">
-          {/* <!-- Toggle button --> */}
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
-            <i className="fas fa-bars"></i>
-          </button>
+      <AppBar position="sticky">
+        <Container
+          maxWidth="xl"
+          style={{
+            backgroundColor: "black",
+            height: "10vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}>
+          <Toolbar disableGutters>
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit">
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}>
+                {/* <Link className="navbar-brand mt-2 mt-lg-0" to="/">
+                  <img src={logo} height="60" alt="ProjX" loading="lazy" />
+                </Link> */}
+                {pages.map((page) => (
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
 
-          {/* <!-- Collapsible wrapper --> */}
-          <div
-            className="collapse text-center my-2 navbar-collapse"
-            id="navbarSupportedContent">
-            {/* <!-- Navbar brand --> */}
-            <Link className="navbar-brand mt-2 mt-lg-0" to="/">
-              <img src={logo} height="60" alt="ProjX" loading="lazy" />
-            </Link>
-            {/* <!-- Left links --> */}
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link className="nav-link" to="/">
-                  Home
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/">
-                  Why Us
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/projects">
-                  My Projects
-                </Link>
-              </li>
-            </ul>
-            {/* <!-- Left links --> */}
-          </div>
-          {/* <!-- Collapsible wrapper --> */}
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              {pages.map((page) => (
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}>
+                  {page}
+                </Button>
+              ))}
+            </Box>
 
-          {/* <!-- Right elements --> */}
-          <div className="d-flex align-items-center">
-            {/* <!-- Avatar --> */}
-            {/* toDO: Check local storage and give either buttons or avatar */}
-            <div className="logo d-flex" style={{ marginRight: "1.5%" }}>
-              <Link to="/signin" style={{ textDecoration: "none" }}>
-                <Button
-                  className="mx-2"
-                  style={{
-                    borderRadius: "30px",
-                    backgroundColor: "rgb(101 158 255)",
+            {localStorage.getItem("signedinuser") && (
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar
+                      alt="Remy Sharp"
+                      src={`https://api.dicebear.com/7.x/pixel-art/svg?seed=${
+                        JSON.parse(localStorage.getItem("signedinuser"))
+                          .email || "temp"
+                      }`}
+                    />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
                   }}
-                  variant="contained">
-                  signin
-                </Button>
-              </Link>
-              <Link to="/signup" style={{ textDecoration: "none" }}>
-                <Button
-                  className="mx-2"
-                  style={{
-                    borderRadius: "30px",
-                    backgroundColor: "rgb(101 158 255)",
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
                   }}
-                  variant="contained">
-                  Signup
-                </Button>
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}>
+                  {settings.map((setting) => (
+                    <MenuItem
+                      key={setting}
+                      onClick={() => {
+                        setAnchorElUser(null);
+                        signOut(auth);
+                        localStorage.removeItem("signedinuser");
+                        nav("/");
+                      }}>
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            )}
+            {!localStorage.getItem("signedinuser") && (
+              <Link to="/signin">
+                <Button>Signin</Button>
               </Link>
-            </div>
-            <div className="dropdown mx-4">
-              <a
-                className="dropdown-toggle d-inline-flex align-items-center hidden-arrow"
-                href="#"
-                id="navbarDropdownMenuAvatar"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <img
-                  src="https://avatars.dicebear.com/api/avataaars/temp.svg"
-                  // ! change api url from local storage
-                  className="rounded-circle"
-                  height="50"
-                  alt="Black and White Portrait of a Man"
-                  loading="lazy"
-                />
-              </a>
-              <ul
-                className="dropdown-menu dropdown-menu-end"
-                aria-labelledby="navbarDropdownMenuAvatar">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    My profile
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Settings
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Logout
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          {/* <!-- Right elements --> */}
-        </div>
-        {/* <!-- Container wrapper --> */}
-      </nav>
-      {/* <!-- Navbar --> */}
+            )}
+          </Toolbar>
+        </Container>
+      </AppBar>
     </>
   );
 };
