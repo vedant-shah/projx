@@ -6,10 +6,10 @@ function TodoMain(props) {
   const [tasks, setTasks] = useState([
     {
       user: "",
-      text: "Finish this page",
+      title: "Finish this page",
+      desc: "",
       deadline: new Date("03/01/2022"),
-      complete: false,
-      priority: "high",
+      status: "high",
       project: "Gravity",
       // ! Set priority based on date while creating task
     },

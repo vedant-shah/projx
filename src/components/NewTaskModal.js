@@ -5,15 +5,21 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { RiAdminFill } from "react-icons/ri";
 import DatePicker from "react-date-picker";
 import { Controller, useForm } from "react-hook-form";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { AiOutlineCalendar } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
 
-function NewProjectModal(props) {
+function NewTaskModal(props) {
   const darkTheme = createTheme({
     palette: {
       mode: "dark",
     },
   });
+  const [value, onChange] = useState(new Date());
   const { register, handleSubmit, control } = useForm();
   const onSubmit = (values) => {
+    values.project = "";
     console.log("| values", values);
   };
   return (
@@ -29,7 +35,7 @@ function NewProjectModal(props) {
                 {/* <FcFlashOn style={{ fontSize: "2rem" }} /> */}
                 <TextField
                   name="name"
-                  label="New Collection Name"
+                  label="New Task Title"
                   variant="outlined"
                   required
                   {...register("name", { required: true })}
@@ -46,17 +52,17 @@ function NewProjectModal(props) {
                   type="button"
                   className="btn-close btn-close-white"
                   data-bs-dismiss="modal"
-                  onClick={() => props.setOpen(false)}
+                  onClick={() => props.setOpenTask(false)}
                   aria-label="Close"></button>
               </div>
               <div className="modal-body">
-                {/* <div className="d-flex align-items-end mb-3">
+                <div className="d-flex align-items-end mb-3">
                   <AiOutlineCalendar
                     className="mx-2"
                     style={{ fontSize: "1.5rem" }}
                   />
                   <span className="me-2">Deadline* </span>
-                  
+
                   <DatePicker
                     onChange={(date) => onChange(date)}
                     value={value}
@@ -77,37 +83,6 @@ function NewProjectModal(props) {
                     sx={{ display: "none" }}
                   />
                 </div>
-                <div className="d-flex align-items-end my-3">
-                  <RiAdminFill
-                    className="mx-2"
-                    style={{ fontSize: "1.5rem" }}
-                  />
-                  <TextField
-                    name="owner"
-                    size="small"
-                    label="Owner"
-                    focused
-                    value={owner}
-                    {...register("owner")}
-                    variant="standard"
-                    inputProps={{
-                      readOnly: true,
-                    }}
-                    sx={{
-                      borderBottom: "1.5px solid #707070",
-                      input: {
-                        // eslint-disable-next-line
-                        WebkitTextFillColor: "#707070!important",
-                        color: "#707070!important",
-                      },
-                    }}
-                    //   inputProps={{ style: { color: "whitesmoke!important" } }}
-                    InputLabelProps={{
-                      style: { color: "#616161" },
-                      // shrink: true,
-                    }}
-                  />
-                </div> */}
 
                 <div className="d-flex align-items-end my-3">
                   <TextField
@@ -130,6 +105,20 @@ function NewProjectModal(props) {
                     }}
                   />
                 </div>
+                <div className="d-flex align-items-end my-3">
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    style={{ borderRadius: "50px" }}
+                    value={"todo"}
+                    size="small"
+                    {...register("status")}
+                    label="Status">
+                    <MenuItem value={"todo"}>To-Do</MenuItem>
+                    <MenuItem value={"inprogress"}>In Progress</MenuItem>
+                    <MenuItem value={"completed"}>Completed</MenuItem>
+                  </Select>
+                </div>
               </div>
               <button type="submit" className="create">
                 Create
@@ -142,4 +131,4 @@ function NewProjectModal(props) {
   );
 }
 
-export default NewProjectModal;
+export default NewTaskModal;

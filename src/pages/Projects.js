@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import ProjectCard from "../components/ProjectCard";
+import NewTaskModal from "../components/NewTaskModal";
 import Modal from "@mui/material/Modal";
 import * as BiIcons from "react-icons/bi";
 import Grid from "@mui/material/Grid";
 import TodoMain from "../components/TodoMain";
 import NewProjectModal from "../components/NewProjectModal";
+import TaskCard from "../components/TaskCard";
 
 function Projects() {
   const [open, setOpen] = useState(false);
+  const [openTask, setOpenTask] = useState(false);
   const sort = (arr) => {
     for (let i = 0; i < arr.length - 1; i++) {
       let min = i;
@@ -66,28 +69,14 @@ function Projects() {
   return (
     <>
       <div
-        className="container-fluid px-5 pb-4"
-        style={{ minHeight: "85vh", backgroundColor: "#1c1c1c" }}>
+        className="container-fluid p-5 pb-4"
+        style={{ minHeight: "100vh", backgroundColor: "#1c1c1c" }}>
         <div
           className=" mb-4 d-flex justify-content-between align-items-center"
           id="projecttitlewrapper">
-          <p
-            className="display-4 text-light"
-            style={{ fontFamily: "Montserrat" }}>
-            Welcome!
+          <p className="display-4 text-light lgf" style={{}}>
+            COLLECTIONS
           </p>
-          {/* <Button
-            // style={{
-            //   height: "40px",
-            //   borderRadius: "30px",
-            //   backgroundColor: "rgb(101 158 255)",
-            // }}
-            className="button"
-            id="addproject"
-            variant="contained"
-            startIcon={<BiIcons.BiPlus />}>
-            New Project
-          </Button> */}
           <button
             className="button"
             onClick={() => {
@@ -95,7 +84,7 @@ function Projects() {
             }}>
             <span className="button-content d-flex align-items-center">
               <BiIcons.BiPlus style={{ fontSize: "1.5rem" }} />
-              New Project
+              New Collection
             </span>
           </button>
         </div>
@@ -109,22 +98,59 @@ function Projects() {
         </Modal>
         <hr style={{ color: "grey" }} />
 
-        <h2 className="text-light montserrat mb-5">My Pending Tasks:</h2>
-
-        <TodoMain sortedArray={sortedArray} />
-
-        <hr style={{ color: "grey", marginTop: "3rem" }} />
-
-        <h2 className="text-light montserrat">Ongoing Projects:</h2>
-
-        <Grid container sx={{ marginTop: "1.75rem" }} spacing={2}>
+        <Grid container sx={{ marginTop: "1.75rem" }} spacing={4}>
           {sortedArray.map((element) => {
             const color = getRandomColor();
             element.color = color;
             return (
               // ! change key value after making api
-              <Grid item xs={12} md={4} sm={6} lg={3} key={element.name}>
+              <Grid item xs={12} md={4} sm={6} lg={4} key={element.name}>
                 <ProjectCard element={element} color={color} />
+              </Grid>
+            );
+          })}
+        </Grid>
+
+        {/* quick tasks */}
+        <div
+          className=" mt-5 mb-4 d-flex justify-content-between align-items-center"
+          id="projecttitlewrapper">
+          <p className="display-4 text-light lgf" style={{}}>
+            QUICK TASKS
+          </p>
+          <button
+            className="button"
+            onClick={() => {
+              setOpenTask(!openTask);
+            }}>
+            <span className="button-content d-flex align-items-center">
+              <BiIcons.BiPlus style={{ fontSize: "1.5rem" }} />
+              New Task
+            </span>
+          </button>
+        </div>
+        <Modal
+          open={openTask}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description">
+          <div>
+            <NewTaskModal setOpenTask={setOpenTask} />
+          </div>
+        </Modal>
+        <hr style={{ color: "grey" }} />
+
+        <Grid container sx={{ marginTop: "1.75rem" }} spacing={4}>
+          {sortedArray.map((element) => {
+            const color = getRandomColor();
+            element.color = color;
+            return (
+              // ! change key value after making api
+              <Grid item xs={12} md={4} sm={6} lg={4} key={element.name}>
+                <TaskCard
+                  element={element}
+                  color={color}
+                  status={"completed"}
+                />
               </Grid>
             );
           })}

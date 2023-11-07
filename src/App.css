@@ -62,7 +62,9 @@ body {
   background-size: 400%;
   color: #fff;
 }
-
+.lgf {
+  font-family: "Luckiest Guy", cursive;
+}
 .button:hover::before {
   transform: scaleX(1);
 }

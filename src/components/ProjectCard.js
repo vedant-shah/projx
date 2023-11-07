@@ -18,11 +18,12 @@ function ProjectCard(props) {
             "0 1px 2px rgb(0 0 0 / 7%), 0 2px 4px rgb(0 0 0 / 7%), 0 4px 8px rgb(0 0 0 / 7%), 0 8px 16px rgb(0 0 0 / 7%), 0 16px 32px rgb(0 0 0 / 7%), 0 32px 64px rgb(0 0 0 / 7%)",
         }}>
         <CardContent>
-          <Typography variant="h5" component="div" color={props.color}>
+          <Typography
+            variant="h5"
+            component="div"
+            color={props.color}
+            className="mb-3">
             {props.element.name}
-          </Typography>
-          <Typography sx={{ mb: 1.5 }} className="text-muted" color="#f4f186">
-            {props.element.subject}
           </Typography>
           <Typography variant="body2" color="#bdc1c6">
             {props.element.description}
@@ -31,12 +32,12 @@ function ProjectCard(props) {
         </CardContent>
         <CardActions className="d-flex mb-3 mx-2">
           {/* <Typography sx={{ fontSize: 10 }} color="#bdc1c6" gutterBottom> */}
-          <Chip
+          {/* <Chip
             style={{ backgroundColor: props.color, fontSize: "10px" }}
             size="small"
             icon={<BsFillCalendarCheckFill size={12} />}
             label={props.element.deadline.toString().substring(0, 15)}
-          />
+          /> */}
           {/* </Typography> */}
         </CardActions>
       </Card>
