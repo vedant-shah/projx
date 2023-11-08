@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProjectCard from "../components/ProjectCard";
 import NewTaskModal from "../components/NewTaskModal";
 import Modal from "@mui/material/Modal";
@@ -7,10 +7,45 @@ import Grid from "@mui/material/Grid";
 import TodoMain from "../components/TodoMain";
 import NewProjectModal from "../components/NewProjectModal";
 import TaskCard from "../components/TaskCard";
+import { db } from "../firebase-config";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 
 function Projects() {
+  const projectsRef = collection(db, "projects");
+  const [userData, setUserData] = useState({});
   const [open, setOpen] = useState(false);
   const [openTask, setOpenTask] = useState(false);
+  const [quickTasks, setQuickTasks] = useState([]);
+  const getUserData = async () => {
+    const q = query(
+      projectsRef,
+      where(
+        "email",
+        "==",
+        JSON.parse(localStorage.getItem("signedinuser")).email
+      )
+    );
+    const data = await getDocs(q);
+    const filteredData = data.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    setUserData(filteredData[0]);
+    let temp = filteredData[0].tasks;
+    temp.filter((task) => task.project.length === 0);
+    setQuickTasks(temp);
+  };
+  useEffect(() => {
+    getUserData();
+  }, []);
+
   const sort = (arr) => {
     for (let i = 0; i < arr.length - 1; i++) {
       let min = i;
@@ -99,7 +134,7 @@ function Projects() {
         <hr style={{ color: "grey" }} />
 
         <Grid container sx={{ marginTop: "1.75rem" }} spacing={4}>
-          {sortedArray.map((element) => {
+          {userData.projects?.map((element) => {
             const color = getRandomColor();
             element.color = color;
             return (
@@ -134,22 +169,24 @@ function Projects() {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description">
           <div>
-            <NewTaskModal setOpenTask={setOpenTask} />
+            <NewTaskModal setOpenTask={setOpenTask} project={""} />
           </div>
         </Modal>
         <hr style={{ color: "grey" }} />
 
         <Grid container sx={{ marginTop: "1.75rem" }} spacing={4}>
-          {sortedArray.map((element) => {
+          {quickTasks.map((element) => {
             const color = getRandomColor();
-            element.color = color;
             return (
-              // ! change key value after making api
               <Grid item xs={12} md={4} sm={6} lg={4} key={element.name}>
                 <TaskCard
                   element={element}
+                  userData={userData}
+                  setUserData={setUserData}
+                  quickTasks={quickTasks}
+                  setQuickTasks={setQuickTasks}
                   color={color}
-                  status={"completed"}
+                  status={element.status}
                 />
               </Grid>
             );

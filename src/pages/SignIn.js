@@ -14,7 +14,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { auth } from "../firebase-config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-
+import { db } from "../firebase-config";
+import { collection, getDocs, query, where } from "firebase/firestore";
 function Copyright(props) {
   return (
     <Typography
@@ -40,6 +41,7 @@ const theme = createTheme({
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const projectsRef = collection(db, "projects");
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -53,6 +55,14 @@ export default function SignIn() {
         data.get("email"),
         data.get("password")
       );
+      const q = query(projectsRef, where("email", "==", data.get("email")));
+      const udata = await getDocs(q);
+      const filteredData = udata.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      const userData = filteredData[0];
+      localStorage.setItem("userData", JSON.stringify(userData));
       setShowSuccess(true);
       console.log("signin:", signin);
       const user = signin.user;

@@ -5,6 +5,16 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { RiAdminFill } from "react-icons/ri";
 import DatePicker from "react-date-picker";
 import { Controller, useForm } from "react-hook-form";
+import { db } from "../firebase-config";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 
 function NewProjectModal(props) {
   const darkTheme = createTheme({
@@ -13,8 +23,31 @@ function NewProjectModal(props) {
     },
   });
   const { register, handleSubmit, control } = useForm();
-  const onSubmit = (values) => {
-    console.log("| values", values);
+  const projectsRef = collection(db, "projects");
+  const onSubmit = async (values) => {
+    try {
+      console.log("| values", values);
+      const q = query(
+        projectsRef,
+        where(
+          "email",
+          "==",
+          JSON.parse(localStorage.getItem("signedinuser")).email
+        )
+      );
+      const data = await getDocs(q);
+      const filteredData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      const userData = filteredData[0];
+      userData.projects.push(values);
+      const userDoc = doc(db, "projects", userData.id);
+      await updateDoc(userDoc, userData);
+      props.setOpen(false);
+    } catch (error) {
+      console.log("error:", error);
+    }
   };
   return (
     <>

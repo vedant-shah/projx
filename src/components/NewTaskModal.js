@@ -2,13 +2,21 @@ import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { RiAdminFill } from "react-icons/ri";
 import DatePicker from "react-date-picker";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
+import { db } from "../firebase-config";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 
 function NewTaskModal(props) {
   const darkTheme = createTheme({
@@ -18,9 +26,30 @@ function NewTaskModal(props) {
   });
   const [value, onChange] = useState(new Date());
   const { register, handleSubmit, control } = useForm();
-  const onSubmit = (values) => {
-    values.project = "";
+  const projectsRef = collection(db, "projects");
+  const onSubmit = async (values) => {
+    values.project = props.project;
+    values.deadline = value;
     console.log("| values", values);
+    const q = query(
+      projectsRef,
+      where(
+        "email",
+        "==",
+        JSON.parse(localStorage.getItem("signedinuser")).email
+      )
+    );
+    const data = await getDocs(q);
+    const filteredData = data.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    const userData = filteredData[0];
+    userData.tasks.push(values);
+    const userDoc = doc(db, "projects", userData.id);
+    await updateDoc(userDoc, userData);
+    props.setOpenTask(false);
+    window.location.reload();
   };
   return (
     <>
@@ -64,7 +93,7 @@ function NewTaskModal(props) {
                   <span className="me-2">Deadline* </span>
 
                   <DatePicker
-                    onChange={(date) => onChange(date)}
+                    onChange={(date) => onChange(new Date(date))}
                     value={value}
                     format="dd-MM-y"
                     clearIcon={<AiOutlineClose />}
@@ -106,18 +135,21 @@ function NewTaskModal(props) {
                   />
                 </div>
                 <div className="d-flex align-items-end my-3">
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    style={{ borderRadius: "50px" }}
-                    value={"todo"}
+                  <TextField
+                    select
+                    fullWidth
+                    label="Status"
+                    className="my-3"
+                    defaultValue="todo"
                     size="small"
-                    {...register("status")}
-                    label="Status">
+                    style={{ borderRadius: "50px" }}
+                    inputProps={register("status", {
+                      required: "Please enter currency",
+                    })}>
                     <MenuItem value={"todo"}>To-Do</MenuItem>
                     <MenuItem value={"inprogress"}>In Progress</MenuItem>
                     <MenuItem value={"completed"}>Completed</MenuItem>
-                  </Select>
+                  </TextField>
                 </div>
               </div>
               <button type="submit" className="create">

@@ -11,7 +11,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { auth } from "../firebase-config";
+import { auth, db } from "../firebase-config";
+import { collection, addDoc } from "firebase/firestore";
 import Alert from "@mui/material/Alert";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -35,6 +36,7 @@ const darkTheme = createTheme({
 
 export default function SignUp() {
   const nav = useNavigate();
+  const projectsRef = collection(db, "projects");
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -48,6 +50,11 @@ export default function SignUp() {
         data.get("email"),
         data.get("password")
       );
+      await addDoc(projectsRef, {
+        email: data.get("email"),
+        projects: [],
+        tasks: [],
+      });
       nav("/signin");
     } catch (e) {
       setFailureMessage(e.toString().substring(30));

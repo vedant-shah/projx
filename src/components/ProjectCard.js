@@ -11,7 +11,7 @@ function ProjectCard(props) {
     <>
       <Card
         sx={{
-          backgroundColor: "#171717",
+          backgroundColor: "#000000",
           borderRadius: 4,
           cursor: "pointer",
           boxShadow:
@@ -22,6 +22,7 @@ function ProjectCard(props) {
             variant="h5"
             component="div"
             color={props.color}
+            style={{ fontWeight: "bold" }}
             className="mb-3">
             {props.element.name}
           </Typography>

@@ -11,6 +11,17 @@ import MenuItem from "@mui/material/MenuItem";
 import { BsFillCalendarCheckFill } from "react-icons/bs";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import dayjs from "dayjs";
+import { db } from "../firebase-config";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 function TaskCard(props) {
   const [status, setStatus] = useState(props.status);
   const darkTheme = createTheme({
@@ -18,13 +29,20 @@ function TaskCard(props) {
       mode: "dark",
     },
   });
+  var localizedFormat = require("dayjs/plugin/localizedFormat");
+  dayjs.extend(localizedFormat);
   return (
     <>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <Card
           sx={{
-            backgroundColor: "#171717",
+            backgroundColor:
+              status === "completed"
+                ? "rgba(0,255,0,0.1)"
+                : status === "todo"
+                ? "rgba(0,0,255,0.1)"
+                : "rgba(255,167,0,0.3)",
             borderRadius: 4,
             cursor: "pointer",
             boxShadow:
@@ -35,6 +53,7 @@ function TaskCard(props) {
               variant="h5"
               component="div"
               color={props.color}
+              style={{ fontWeight: "bold" }}
               className="mb-3">
               {props.element.name}
             </Typography>
@@ -50,12 +69,13 @@ function TaskCard(props) {
                 backgroundColor: props.color,
                 fontSize: "10px",
                 color: "black",
+                fontWeight: "bold",
               }}
               size="small"
               icon={
                 <BsFillCalendarCheckFill size={12} style={{ color: "black" }} />
               }
-              label={props.element.deadline.toString().substring(0, 15)}
+              label={dayjs(props.element.deadline.toDate()).format("ll")}
             />
             <Select
               labelId="demo-simple-select-label"
@@ -64,8 +84,24 @@ function TaskCard(props) {
               size="small"
               value={status}
               label="Status"
-              onChange={(e) => {
+              onChange={async (e) => {
                 setStatus(e.target.value);
+                props.userData.tasks.forEach((task) => {
+                  if (
+                    task.name === props.element.name &&
+                    task.description === props.element.description &&
+                    task.project === props.element.project &&
+                    task.status === props.element.status
+                  ) {
+                    task.status = e.target.value;
+                  }
+                  // console.log("props.element:", props.element);
+                  // console.log("task:", task);
+                });
+                console.log(props.userData);
+                const userDoc = doc(db, "projects", props.userData.id);
+                await updateDoc(userDoc, props.userData);
+                props.setUserData(props.userData);
               }}>
               <MenuItem value={"todo"}>To-Do</MenuItem>
               <MenuItem value={"inprogress"}>In Progress</MenuItem>
