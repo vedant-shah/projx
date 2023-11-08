@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid";
 import TodoMain from "../components/TodoMain";
 import NewProjectModal from "../components/NewProjectModal";
 import TaskCard from "../components/TaskCard";
+import { IoFilter } from "react-icons/io5";
 import { db } from "../firebase-config";
 import {
   collection,
@@ -19,10 +20,37 @@ import {
 
 function Projects() {
   const projectsRef = collection(db, "projects");
+  const [filter, setFilter] = useState("All");
   const [userData, setUserData] = useState({});
   const [open, setOpen] = useState(false);
   const [openTask, setOpenTask] = useState(false);
   const [quickTasks, setQuickTasks] = useState([]);
+  let orriginalTasks = [];
+  useEffect(() => {
+    getUserData();
+  }, []);
+  useEffect(() => {
+    if (userData.email) {
+      let temp = userData.tasks;
+      if (filter === "To-Do") {
+        temp = temp.filter((e) => e.status === "todo");
+        setQuickTasks(temp);
+      }
+      if (filter === "All") {
+        temp = temp.filter((e) => e.project === "");
+        setQuickTasks(temp);
+      }
+      if (filter === "In-Progress") {
+        temp = temp.filter((e) => e.status === "inprogress");
+        setQuickTasks(temp);
+      }
+      if (filter === "Completed") {
+        temp = temp.filter((e) => e.status === "completed");
+        setQuickTasks(temp);
+      }
+    }
+  }, [userData, filter]);
+
   const getUserData = async () => {
     const q = query(
       projectsRef,
@@ -40,11 +68,9 @@ function Projects() {
     setUserData(filteredData[0]);
     let temp = filteredData[0].tasks;
     temp.filter((task) => task.project.length === 0);
+    orriginalTasks = temp;
     setQuickTasks(temp);
   };
-  useEffect(() => {
-    getUserData();
-  }, []);
 
   const sort = (arr) => {
     for (let i = 0; i < arr.length - 1; i++) {
@@ -173,7 +199,27 @@ function Projects() {
           </div>
         </Modal>
         <hr style={{ color: "grey" }} />
-
+        <div className="d-flex align-items-center">
+          <IoFilter
+            className="mx-2"
+            onClick={() => {
+              if (filter === "All") setFilter("To-Do");
+              if (filter === "To-Do") setFilter("In-Progress");
+              if (filter === "In-Progress") setFilter("Completed");
+              if (filter === "Completed") setFilter("All");
+            }}
+            style={{ fontSize: "2.5rem", cursor: "pointer" }}
+          />
+          <h3
+            className="lgf m-0"
+            style={{
+              cursor: "pointer",
+              userSelect: "none",
+              fontSize: "2.5rem",
+            }}>
+            {filter}
+          </h3>
+        </div>
         <Grid container sx={{ marginTop: "1.75rem" }} spacing={4}>
           {quickTasks.map((element) => {
             const color = getRandomColor();
