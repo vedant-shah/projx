@@ -6,10 +6,15 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import { BsFillCalendarCheckFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 function ProjectCard(props) {
+  const nav = useNavigate();
   return (
     <>
       <Card
+        onClick={() => {
+          nav(`/project/${props.element.name}`);
+        }}
         sx={{
           backgroundColor: "#000000",
           borderRadius: 4,

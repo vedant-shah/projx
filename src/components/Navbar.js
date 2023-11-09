@@ -17,22 +17,10 @@ import MenuItem from "@mui/material/MenuItem";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
-const pages = ["Home", "Why Us", "Projects"];
+const pages = ["Home", "Projects"];
+const navlink = ["/", "/projects"];
 const settings = ["Logout"];
 export const Navbar = () => {
-  // const getAvatar = async () => {
-  //   const imageUrl = "https://avatars.dicebear.com/api/avataaars/ved.svg";
-  //   const img = async () => {
-  //     const response = await fetch(imageUrl);
-  //     const imageBlob = await response.blob();
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(imageBlob);
-  //     reader.onloadend = () => {
-  //       const base64data = reader.result;
-  //       console.log(base64data);
-  //     };
-  //   };
-  // };
   const nav = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -91,25 +79,26 @@ export const Navbar = () => {
                 sx={{
                   display: { xs: "block", md: "none" },
                 }}>
-                {/* <Link className="navbar-brand mt-2 mt-lg-0" to="/">
-                  <img src={logo} height="60" alt="ProjX" loading="lazy" />
-                </Link> */}
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
+                {pages.map((page, index) => (
+                  <Link to={navlink[index]}>
+                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">{page}</Typography>
+                    </MenuItem>
+                  </Link>
                 ))}
               </Menu>
             </Box>
 
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}>
-                  {page}
-                </Button>
+              {pages.map((page, index) => (
+                <Link to={navlink[index]}>
+                  <Button
+                    key={page}
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}>
+                    {page}
+                  </Button>
+                </Link>
               ))}
             </Box>
 

@@ -7,6 +7,7 @@ import SignUp from './pages/SignUp.js'
 import SignIn from './pages/SignIn.js'
 import Footer from './components/Footer';
 import Projects from './pages/Projects';
+import ProjectTasks from './pages/ProjectTasks.js';
 function App() {
   return (
     <>
@@ -17,6 +18,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/project/:slug" element={<ProjectTasks />} />
         </Routes>
 
       </Router>
