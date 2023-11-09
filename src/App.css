@@ -40,6 +40,10 @@ body {
   #mycont {
     height: 175px !important;
   }
+  .filter-sort {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 .react-date-picker__wrapper {
   border-radius: 7px;

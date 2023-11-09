@@ -22,8 +22,17 @@ import {
   updateDoc,
   doc,
 } from "firebase/firestore";
-function TaskCard(props) {
-  const [status, setStatus] = useState(props.status);
+function TaskCard({
+  element,
+  userData,
+  setUserData,
+  color,
+  status,
+  sortBy,
+  setQuickTasks,
+  quickTasks,
+}) {
+  const [status1, setStatus1] = useState(status);
   const darkTheme = createTheme({
     palette: {
       mode: "dark",
@@ -38,9 +47,9 @@ function TaskCard(props) {
         <Card
           sx={{
             backgroundColor:
-              status === "completed"
+              status1 === "completed"
                 ? "rgba(0,255,0,0.1)"
-                : status === "todo"
+                : status1 === "todo"
                 ? "rgba(0,0,255,0.1)"
                 : "rgba(255,167,0,0.3)",
             borderRadius: 4,
@@ -52,13 +61,13 @@ function TaskCard(props) {
             <Typography
               variant="h5"
               component="div"
-              color={props.color}
+              color={color}
               style={{ fontWeight: "bold" }}
               className="mb-3">
-              {props.element.name}
+              {element.name}
             </Typography>
             <Typography variant="body2" color="#bdc1c6">
-              {props.element.description}
+              {element.description}
               <br />
             </Typography>
           </CardContent>
@@ -66,7 +75,7 @@ function TaskCard(props) {
             {/* <Typography sx={{ fontSize: 10 }} color="#bdc1c6" gutterBottom> */}
             <Chip
               style={{
-                backgroundColor: props.color,
+                backgroundColor: color,
                 fontSize: "10px",
                 color: "black",
                 fontWeight: "bold",
@@ -75,33 +84,42 @@ function TaskCard(props) {
               icon={
                 <BsFillCalendarCheckFill size={12} style={{ color: "black" }} />
               }
-              label={dayjs(props.element.deadline.toDate()).format("ll")}
+              label={dayjs(element.deadline.toDate()).format("ll")}
             />
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               style={{ borderRadius: "50px" }}
               size="small"
-              value={status}
+              value={status1}
               label="Status"
               onChange={async (e) => {
-                setStatus(e.target.value);
-                props.userData.tasks.forEach((task) => {
+                setStatus1(e.target.value);
+                const temp = userData;
+                temp.tasks.forEach((task) => {
                   if (
-                    task.name === props.element.name &&
-                    task.description === props.element.description &&
-                    task.project === props.element.project &&
-                    task.status === props.element.status
+                    task.name === element.name &&
+                    task.description === element.description &&
+                    task.project === element.project &&
+                    task.status === element.status
                   ) {
                     task.status = e.target.value;
                   }
-                  // console.log("props.element:", props.element);
+                  // console.log("element:", element);
                   // console.log("task:", task);
                 });
-                console.log(props.userData);
-                const userDoc = doc(db, "projects", props.userData.id);
-                await updateDoc(userDoc, props.userData);
-                props.setUserData(props.userData);
+                const userDoc = doc(db, "projects", userData.id);
+                await updateDoc(userDoc, temp);
+                let temp1 = temp.tasks;
+                console.log("temp1:", temp1);
+                console.log(quickTasks);
+                if (sortBy === "Sort By: Status") {
+                  temp1.sort((a, b) => {
+                    const order = { inprogress: 1, todo: 2, completed: 3 };
+                    return order[a.status] - order[b.status];
+                  });
+                  setQuickTasks(temp1);
+                }
               }}>
               <MenuItem value={"todo"}>To-Do</MenuItem>
               <MenuItem value={"inprogress"}>In Progress</MenuItem>

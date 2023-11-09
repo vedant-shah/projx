@@ -25,12 +25,13 @@ function Projects() {
   const [open, setOpen] = useState(false);
   const [openTask, setOpenTask] = useState(false);
   const [quickTasks, setQuickTasks] = useState([]);
-  let orriginalTasks = [];
+  const [sortBy, setSortBy] = useState("Sort By: Date");
   useEffect(() => {
     getUserData();
   }, []);
   useEffect(() => {
     if (userData.email) {
+      console.log("first");
       let temp = userData.tasks;
       if (filter === "To-Do") {
         temp = temp.filter((e) => e.status === "todo");
@@ -68,7 +69,7 @@ function Projects() {
     setUserData(filteredData[0]);
     let temp = filteredData[0].tasks;
     temp.filter((task) => task.project.length === 0);
-    orriginalTasks = temp;
+    temp = sort(temp);
     setQuickTasks(temp);
   };
 
@@ -199,25 +200,53 @@ function Projects() {
           </div>
         </Modal>
         <hr style={{ color: "grey" }} />
-        <div className="d-flex align-items-center">
-          <IoFilter
-            className="mx-2"
-            onClick={() => {
-              if (filter === "All") setFilter("To-Do");
-              if (filter === "To-Do") setFilter("In-Progress");
-              if (filter === "In-Progress") setFilter("Completed");
-              if (filter === "Completed") setFilter("All");
-            }}
-            style={{ fontSize: "2.5rem", cursor: "pointer" }}
-          />
+        <div className="d-flex justify-content-between w-100 filter-sort">
+          <div className="d-flex align-items-center my-2">
+            <IoFilter
+              className="mx-2"
+              onClick={() => {
+                if (filter === "All") setFilter("To-Do");
+                if (filter === "To-Do") setFilter("In-Progress");
+                if (filter === "In-Progress") setFilter("Completed");
+                if (filter === "Completed") setFilter("All");
+              }}
+              style={{ fontSize: "2.5rem", cursor: "pointer" }}
+            />
+            <h3
+              className="lgf m-0"
+              style={{
+                cursor: "pointer",
+                userSelect: "none",
+                fontSize: "2.5rem",
+              }}>
+              {filter}
+            </h3>
+          </div>
           <h3
-            className="lgf m-0"
+            className="lgf my-2"
             style={{
               cursor: "pointer",
               userSelect: "none",
               fontSize: "2.5rem",
+            }}
+            onClick={() => {
+              if (sortBy === "Sort By: Date") {
+                setSortBy("Sort By: Status");
+                let temp = quickTasks;
+                temp.sort((a, b) => {
+                  const order = { inprogress: 1, todo: 2, completed: 3 };
+                  return order[a.status] - order[b.status];
+                });
+                setQuickTasks(temp);
+              }
+              if (sortBy === "Sort By: Status") {
+                setSortBy("Sort By: Date");
+                let temp = quickTasks;
+                temp = sort(temp);
+                setQuickTasks(temp);
+              }
             }}>
-            {filter}
+            {sortBy}
           </h3>
         </div>
         <Grid container sx={{ marginTop: "1.75rem" }} spacing={4}>
@@ -232,6 +261,7 @@ function Projects() {
                   quickTasks={quickTasks}
                   setQuickTasks={setQuickTasks}
                   color={color}
+                  sortBy={sortBy}
                   status={element.status}
                 />
               </Grid>
