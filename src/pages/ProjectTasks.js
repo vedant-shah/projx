@@ -40,23 +40,22 @@ function ProjectTasks() {
   const projectsRef = collection(db, "projects");
   const [filter, setFilter] = useState("All");
   const [userData, setUserData] = useState({});
-  const [open, setOpen] = useState(false);
   const [openTask, setOpenTask] = useState(false);
   const [quickTasks, setQuickTasks] = useState([]);
+  const [duplicateQuickTasks, setDuplicateQuickTasks] = useState([]);
   const [sortBy, setSortBy] = useState("Sort By: Date");
   useEffect(() => {
     getUserData();
   }, []);
   useEffect(() => {
-    if (userData.email) {
-      console.log("first");
-      let temp = userData.tasks;
+    if (duplicateQuickTasks) {
+      let temp = duplicateQuickTasks;
       if (filter === "To-Do") {
         temp = temp.filter((e) => e.status === "todo");
         setQuickTasks(temp);
       }
       if (filter === "All") {
-        temp = temp.filter((e) => e.project === "");
+        temp = temp.filter((e) => e.project !== "");
         setQuickTasks(temp);
       }
       if (filter === "In-Progress") {
@@ -92,6 +91,7 @@ function ProjectTasks() {
     // temp1.filter((task) => task.project.length !== 0);
     temp1 = sort(temp1);
     setQuickTasks(temp1);
+    setDuplicateQuickTasks(temp1);
   };
   return (
     <div

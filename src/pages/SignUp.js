@@ -55,7 +55,11 @@ export default function SignUp() {
         projects: [],
         tasks: [],
       });
-      nav("/signin");
+      setShowSuccess(true);
+      setTimeout(() => {
+        setShowSuccess(false);
+        nav("/signin");
+      }, 2000);
     } catch (e) {
       setFailureMessage(e.toString().substring(30));
       setShowFailure(true);
@@ -65,6 +69,7 @@ export default function SignUp() {
     }
   };
   const [showFailure, setShowFailure] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [failureMessage, setFailureMessage] = useState(false);
   return (
     <div
@@ -89,6 +94,15 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
+          {showSuccess && (
+            <Alert
+              severity="success"
+              style={{
+                marginTop: "1%",
+              }}>
+              Successfully Signed Up! Proceed to Log In.
+            </Alert>
+          )}
           {showFailure && (
             <Alert
               severity="error"

@@ -31,8 +31,8 @@ function Projects() {
   }, []);
   useEffect(() => {
     if (userData.email) {
-      console.log("first");
       let temp = userData.tasks;
+      temp = temp.filter((e) => e.project === "");
       if (filter === "To-Do") {
         temp = temp.filter((e) => e.status === "todo");
         setQuickTasks(temp);
