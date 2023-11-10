@@ -67,7 +67,9 @@ function Projects() {
       id: doc.id,
     }));
     setUserData(filteredData[0]);
+    localStorage.setItem("userData", JSON.stringify(filteredData[0]));
     let temp = filteredData[0].tasks;
+    console.log("temp:", temp);
     temp.filter((task) => task.project.length === 0);
     temp = sort(temp);
     setQuickTasks(temp);

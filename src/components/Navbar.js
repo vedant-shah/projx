@@ -80,7 +80,10 @@ export const Navbar = () => {
                   display: { xs: "block", md: "none" },
                 }}>
                 {pages.map((page, index) => (
-                  <Link to={navlink[index]} style={{ textDecoration: "none" }}>
+                  <Link
+                    key={Math.random()}
+                    to={navlink[index]}
+                    style={{ textDecoration: "none" }}>
                     <MenuItem key={page} onClick={handleCloseNavMenu}>
                       <Typography textAlign="center">{page}</Typography>
                     </MenuItem>
@@ -91,7 +94,10 @@ export const Navbar = () => {
 
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page, index) => (
-                <Link to={navlink[index]} style={{ textDecoration: "none" }}>
+                <Link
+                  key={Math.random()}
+                  to={navlink[index]}
+                  style={{ textDecoration: "none" }}>
                   <Button
                     key={page}
                     onClick={handleCloseNavMenu}

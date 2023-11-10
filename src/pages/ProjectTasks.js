@@ -88,6 +88,7 @@ function ProjectTasks() {
       console.log(element);
       if (element.name === slug) setProjectDescription(element.description);
     });
+    setUserData(filteredData[0]);
     let temp = filteredData[0].tasks;
     let temp1 = [];
     temp.forEach((task) => {
