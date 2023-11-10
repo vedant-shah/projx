@@ -42,6 +42,7 @@ function ProjectTasks() {
   const [userData, setUserData] = useState({});
   const [openTask, setOpenTask] = useState(false);
   const [quickTasks, setQuickTasks] = useState([]);
+  const [projectDescription, setProjectDescription] = useState("");
   const [duplicateQuickTasks, setDuplicateQuickTasks] = useState([]);
   const [sortBy, setSortBy] = useState("Sort By: Date");
   useEffect(() => {
@@ -83,6 +84,10 @@ function ProjectTasks() {
       ...doc.data(),
       id: doc.id,
     }));
+    filteredData[0].projects.forEach((element) => {
+      console.log(element);
+      if (element.name === slug) setProjectDescription(element.description);
+    });
     let temp = filteredData[0].tasks;
     let temp1 = [];
     temp.forEach((task) => {
@@ -100,9 +105,14 @@ function ProjectTasks() {
       <div
         className="  d-flex justify-content-between align-items-center"
         id="projecttitlewrapper">
-        <p className="display-4 text-light lgf" style={{}}>
-          {slug}
-        </p>
+        <div className="project_title_desc_wrapper">
+          <p className="display-4 text-light lgf" style={{}}>
+            {slug}
+          </p>
+          <p className="text-light " style={{}}>
+            {projectDescription}
+          </p>
+        </div>
         <button
           className="button"
           onClick={() => {

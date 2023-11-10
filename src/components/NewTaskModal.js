@@ -152,7 +152,7 @@ function NewTaskModal(props) {
                   </TextField>
                 </div>
               </div>
-              <button type="submit" className="create">
+              <button type="submit" style={{ zIndex: "0" }} className="create">
                 Create
               </button>
             </form>

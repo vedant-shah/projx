@@ -57,22 +57,32 @@ function Home() {
                 />
               </div>
             </div>
-            <Stack spacing={2} direction="row">
-              <Link to="/signup" style={{ textDecoration: "none" }}>
-                <Button
-                  variant="contained"
-                  style={{ backgroundColor: "white", color: "black" }}>
-                  Get Started
-                </Button>
-              </Link>
-              <Link to="/signin" style={{ textDecoration: "none" }}>
+            {!localStorage.getItem("signedinuser") ? (
+              <Stack spacing={2} direction="row">
+                <Link to="/signup" style={{ textDecoration: "none" }}>
+                  <Button
+                    variant="contained"
+                    style={{ backgroundColor: "white", color: "black" }}>
+                    Get Started
+                  </Button>
+                </Link>
+                <Link to="/signin" style={{ textDecoration: "none" }}>
+                  <Button
+                    variant="outlined"
+                    style={{ borderColor: "#89ffd7", color: "white" }}>
+                    Sign In
+                  </Button>
+                </Link>
+              </Stack>
+            ) : (
+              <Link to="/projects" style={{ textDecoration: "none" }}>
                 <Button
                   variant="outlined"
                   style={{ borderColor: "#89ffd7", color: "white" }}>
-                  Sign In
+                  My Projects
                 </Button>
               </Link>
-            </Stack>
+            )}
           </div>
           <div className="col p-0 text-center d-flex my-3 justify-content-center align-items-center">
             <img style={{ width: "300px" }} src={projectImg} alt="" />

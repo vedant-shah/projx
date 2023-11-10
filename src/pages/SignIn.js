@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -42,6 +42,10 @@ const theme = createTheme({
 export default function SignIn() {
   const navigate = useNavigate();
   const projectsRef = collection(db, "projects");
+  useEffect(() => {
+    if (localStorage.getItem("signedinuser")) navigate("/projects");
+  }, []);
+
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();

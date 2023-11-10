@@ -61,18 +61,6 @@ function Whyus() {
               {...label}
               size="small"
               onClick={() => {
-                setSecond(!second);
-              }}
-              color="success"
-              checked={second}
-            />
-            Colaboration
-          </p>
-          <p>
-            <Checkbox
-              {...label}
-              size="small"
-              onClick={() => {
                 setThird(!third);
               }}
               color="success"

@@ -45,6 +45,7 @@ function NewProjectModal(props) {
       const userDoc = doc(db, "projects", userData.id);
       await updateDoc(userDoc, userData);
       props.setOpen(false);
+      window.location.reload();
     } catch (error) {
       console.log("error:", error);
     }
