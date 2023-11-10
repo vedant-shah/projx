@@ -4,8 +4,8 @@ import NewTaskModal from "../components/NewTaskModal";
 import Modal from "@mui/material/Modal";
 import * as BiIcons from "react-icons/bi";
 import Grid from "@mui/material/Grid";
-import TodoMain from "../components/TodoMain";
 import NewProjectModal from "../components/NewProjectModal";
+import { useNavigate } from "react-router-dom";
 import TaskCard from "../components/TaskCard";
 import { IoFilter } from "react-icons/io5";
 import { db } from "../firebase-config";
@@ -19,6 +19,7 @@ import {
 } from "firebase/firestore";
 
 function Projects() {
+  const nav = useNavigate();
   const projectsRef = collection(db, "projects");
   const [filter, setFilter] = useState("All");
   const [userData, setUserData] = useState({});
@@ -27,6 +28,7 @@ function Projects() {
   const [quickTasks, setQuickTasks] = useState([]);
   const [sortBy, setSortBy] = useState("Sort By: Date");
   useEffect(() => {
+    if (!localStorage.getItem("signedinuser")) nav("/signin");
     getUserData();
   }, []);
   useEffect(() => {
@@ -87,39 +89,6 @@ function Projects() {
     }
     return arr;
   };
-  // TODO: Array hardcoded for now, get from api.
-  const projArray = [
-    {
-      name: "Gravity",
-      subject: "em",
-      deadline: new Date(),
-      description: "oshofchsfhsckjscjksjdchs",
-    },
-    {
-      name: "Bridges",
-      subject: "eme",
-      deadline: new Date("12/08/2022"),
-      description: "oshohsckjscskdjbfkjjksjdchs",
-    },
-    {
-      name: "Circles",
-      subject: "m4",
-      deadline: new Date("06/15/2022"),
-      description: "fhscaejffhaofkjscjksjdchs",
-    },
-    {
-      name: "Probability",
-      subject: "m2",
-      deadline: new Date("05/04/2022"),
-      description: "fafhkhzvchhlafhvsj,fhks",
-    },
-    {
-      name: "Euler",
-      subject: "physics",
-      deadline: new Date("10/28/2022"),
-      description: "ahfkahkhfk",
-    },
-  ];
 
   const getRandomColor = () => {
     let letters = "ABCDEF";
@@ -129,7 +98,6 @@ function Projects() {
     }
     return color;
   };
-  const sortedArray = sort(projArray);
   return (
     <>
       <div

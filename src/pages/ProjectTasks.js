@@ -6,6 +6,7 @@ import * as BiIcons from "react-icons/bi";
 import Grid from "@mui/material/Grid";
 import TaskCard from "../components/TaskCard";
 import { IoFilter } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 import { db } from "../firebase-config";
 import {
   collection,
@@ -16,6 +17,7 @@ import {
   doc,
 } from "firebase/firestore";
 function ProjectTasks() {
+  const nav = useNavigate();
   let { slug } = useParams();
   const getRandomColor = () => {
     let letters = "ABCDEF";
@@ -46,6 +48,7 @@ function ProjectTasks() {
   const [duplicateQuickTasks, setDuplicateQuickTasks] = useState([]);
   const [sortBy, setSortBy] = useState("Sort By: Date");
   useEffect(() => {
+    if (!localStorage.getItem("signedinuser")) nav("/signin");
     getUserData();
   }, []);
   useEffect(() => {

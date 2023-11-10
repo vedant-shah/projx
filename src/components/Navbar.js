@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../images/projx-logo1.png";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -17,8 +16,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
-const pages = ["Home", "Projects"];
-const navlink = ["/", "/projects"];
+const pages = ["Projects"];
+const navlink = ["/projects"];
 const settings = ["Logout"];
 export const Navbar = () => {
   const nav = useNavigate();
@@ -93,19 +92,27 @@ export const Navbar = () => {
             </Box>
 
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {pages.map((page, index) => (
-                <Link
-                  key={Math.random()}
-                  to={navlink[index]}
-                  style={{ textDecoration: "none" }}>
-                  <Button
-                    key={page}
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: "white", display: "block" }}>
-                    {page}
-                  </Button>
-                </Link>
-              ))}
+              <Link to="/" style={{ textDecoration: "none" }}>
+                <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}>
+                  Home
+                </Button>
+              </Link>
+              {localStorage.getItem("signedinuser") &&
+                pages.map((page, index) => (
+                  <Link
+                    key={Math.random()}
+                    to={navlink[index]}
+                    style={{ textDecoration: "none" }}>
+                    <Button
+                      key={page}
+                      onClick={handleCloseNavMenu}
+                      sx={{ my: 2, color: "white", display: "block" }}>
+                      {page}
+                    </Button>
+                  </Link>
+                ))}
             </Box>
 
             {localStorage.getItem("signedinuser") && (

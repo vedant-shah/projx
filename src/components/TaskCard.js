@@ -132,8 +132,6 @@ function TaskCard({
                 const userDoc = doc(db, "projects", userData.id);
                 await updateDoc(userDoc, temp);
                 let temp1 = temp.tasks;
-                console.log("temp1:", temp1);
-                console.log(quickTasks);
                 if (sortBy === "Sort By: Status") {
                   temp1.sort((a, b) => {
                     const order = { inprogress: 1, todo: 2, completed: 3 };
@@ -141,6 +139,7 @@ function TaskCard({
                   });
                   setQuickTasks(temp1);
                 }
+                window.location.reload();
               }}>
               <MenuItem value={"todo"}>To-Do</MenuItem>
               <MenuItem value={"inprogress"}>In Progress</MenuItem>
